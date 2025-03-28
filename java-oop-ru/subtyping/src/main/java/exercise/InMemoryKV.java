@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 // BEGIN
-public class InMemoryKV implements KeyValueStorage{
+public class InMemoryKV implements KeyValueStorage {
 
     private final Map<String, String> dictionary;
 
