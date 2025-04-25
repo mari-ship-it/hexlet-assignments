@@ -15,7 +15,15 @@ public final class App {
         });
 
         // BEGIN
-        
+        app.get("/users", ctx -> {
+            var page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+            var per = ctx.queryParamAsClass("per", Integer.class).getOrDefault(5);
+            int start = (page - 1) * per;
+            int end = Math.min(start + per, USERS.size());
+
+            ctx.json(USERS.subList(start, end));
+        });
+
         // END
 
         return app;
