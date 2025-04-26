@@ -3,7 +3,6 @@ package exercise;
 import io.javalin.Javalin;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 // BEGIN
 
