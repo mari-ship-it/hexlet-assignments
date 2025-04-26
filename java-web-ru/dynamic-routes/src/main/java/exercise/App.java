@@ -3,9 +3,11 @@ package exercise;
 import io.javalin.Javalin;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 // BEGIN
 
+import  io.javalin.http.NotFoundResponse;
 // END
 
 public final class App {
@@ -19,7 +21,12 @@ public final class App {
         });
 
         // BEGIN
-        
+        app.get("/companies/{id}", ctx -> {
+            var id = ctx.pathParam("id");
+            Map<String, String> company = COMPANIES.stream().filter(comp -> comp.get("id").equals(id)).findFirst()
+                    .orElseThrow(NotFoundResponse::new);
+            ctx.json(company);
+        });
         // END
 
         app.get("/companies", ctx -> {
@@ -29,9 +36,7 @@ public final class App {
         app.get("/", ctx -> {
             ctx.result("open something like (you can change id): /companies/5");
         });
-
         return app;
-
     }
 
     public static void main(String[] args) {
