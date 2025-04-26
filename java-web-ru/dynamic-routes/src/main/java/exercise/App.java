@@ -3,9 +3,9 @@ package exercise;
 import io.javalin.Javalin;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 // BEGIN
-
 import  io.javalin.http.NotFoundResponse;
 // END
 
@@ -22,9 +22,13 @@ public final class App {
         // BEGIN
         app.get("/companies/{id}", ctx -> {
             var id = ctx.pathParam("id");
-            Map<String, String> company = COMPANIES.stream().filter(comp -> comp.get("id").equals(id))
-                    .findFirst().orElseThrow(NotFoundResponse::new);
-            ctx.json(company);
+            Optional<Map<String, String>> company = COMPANIES.stream().filter(comp -> comp.get("id").equals(id))
+                    .findFirst();
+            if (company.isPresent()) {
+                ctx.json(company.get());
+            } else {
+                ctx.status(404).result("Company not found");
+            }
         });
         // END
 
